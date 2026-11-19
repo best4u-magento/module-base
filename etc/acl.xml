@@ -9,7 +9,7 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Best4u_Backend::admin" title="Best4u" translate="title" sortOrder="0"/>
+                <resource id="Best4u_Base::admin" title="Best4u" translate="title" sortOrder="0"/>
             </resource>
         </resources>
     </acl>

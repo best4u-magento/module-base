@@ -1,5 +1,5 @@
 {
-    "name": "best4u/module-backend",
+    "name": "best4u/module-base",
     "description": "Best4u Backend module for Magento 2 - base module for all Best4u Magento 2 extensions",
     "type": "magento2-module",
     "license": "proprietary",
@@ -12,19 +12,23 @@
     "config": {
         "sort-packages": true
     },
-    "version": "1.1.1",
+    "version": "2.0.0",
     "require": {
         "php": "~8.1.0||~8.2.0||~8.3.0||~8.4.0||~8.5.0",
         "magento/framework": "~103.0.4",
+        "magento/module-authorization": "~100.4.4",
         "magento/module-backend": "~102.0.4",
         "magento/module-config": "~101.2.4"
+    },
+    "replace": {
+        "best4u/module-backend": "*"
     },
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "Best4u\\Backend\\": ""
+            "Best4u\\Base\\": ""
         }
     }
 }

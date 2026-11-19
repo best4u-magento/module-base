@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-11-19
+
+### Breaking changes
+- Renamed the Composer package `best4u/module-backend` to `best4u/module-base`. The new package replaces the old one (`"replace": {"best4u/module-backend": "*"}`), so both can't be installed together.
+- Renamed the Magento module `Best4u_Backend` to `Best4u_Base` and the PHP namespace `Best4u\Backend` to `Best4u\Base`. `app/etc/config.php` changes with `setup:upgrade`; theme overrides and custom code that use the old names must be updated.
+- Moved the repository to https://github.com/best4u-magento/module-base.git (GitHub redirects the old URL).
+
+### Added
+- Data patch `MigrateAdminRolePermissions`: moves admin role permissions from `Best4u_Backend::admin` to `Best4u_Base::admin`, so restricted roles keep their access.
+- Compatibility autoloader in `registration.php`: old class names (`Best4u\Backend\...`, e.g. in custom code or saved content) are loaded from the new namespace. Deprecated, will be removed in the next major version.
+
+### Changed
+- Added the `magento/module-authorization` dependency and `Magento_Authorization` to the module sequence (used by the data patch).
+- `README.md`: new package, module and repository names, and an "Upgrading" section.
+- Verified with PHPCS (Magento2 standard), PHPStan (PHP 8.1 target), Rector and an upgrade from the previous version on Magento 2.4.9.
+
 ## [1.1.1] - 2026-11-10
 
 ### Changed

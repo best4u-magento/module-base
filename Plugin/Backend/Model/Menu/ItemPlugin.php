@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Best4u\Backend\Plugin\Backend\Model\Menu;
+namespace Best4u\Base\Plugin\Backend\Model\Menu;
 
 use Magento\Backend\Model\Menu\Item;
 

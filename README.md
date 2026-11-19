@@ -8,6 +8,7 @@ A base Magento 2 backend module designed to serve as the foundation for all othe
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Upgrading from version 1.x](#upgrading-from-version-1x)
 - [Uninstallation](#uninstallation)
 - [Support](#support)
 - [License](#license)
@@ -31,19 +32,19 @@ Install the module via Composer:
 
 1. Add the repository to your Composer configuration:
 ```bash
-composer config repositories.best4u-module-backend vcs https://github.com/best4u-magento/best4u-module-backend.git
+composer config repositories.best4u-module-backend vcs https://github.com/best4u-magento/module-base.git
 ```
 2. Require the module (without updating immediately):
 ```bash
-composer require best4u/module-backend --no-update
+composer require best4u/module-base --no-update
 ```
 3. Update Composer dependencies:
 ```bash
-composer update best4u/module-backend
+composer update "best4u/*"
 ```
 4. Enable the module in Magento:
 ```bash
-bin/magento module:enable Best4u_Backend
+bin/magento module:enable Best4u_Base
 ```
 5. Run the upgrade and deploy commands:
 ```bash
@@ -58,13 +59,13 @@ bin/magento cache:flush
 Once enabled, downstream modules declare the dependency in their `composer.json`:
 ```json
 "require": {
-    "best4u/module-backend": "^1.0"
+    "best4u/module-base": "^2.0"
 }
 ```
 and in their `etc/module.xml`:
 ```xml
 <sequence>
-    <module name="Best4u_Backend"/>
+    <module name="Best4u_Base"/>
 </sequence>
 ```
 
@@ -74,7 +75,7 @@ The module provides the following identifiers for downstream modules:
 |---|---|---|
 | Admin menu root | `Best4u::best4u_elements` | `parent` attribute in `etc/adminhtml/menu.xml` |
 | Configuration tab | `best4u` | `<tab>` element of a section in `etc/adminhtml/system.xml` |
-| ACL root resource | `Best4u_Backend::admin` | `etc/acl.xml` |
+| ACL root resource | `Best4u_Base::admin` | `etc/acl.xml` |
 
 Example menu item in a downstream module (`etc/adminhtml/menu.xml`):
 ```xml
@@ -94,13 +95,41 @@ Example configuration section in a downstream module (`etc/adminhtml/system.xml`
 
 The **Best4u** menu is only displayed when it contains at least one menu item that is enabled and allowed for the current admin user (ACL); otherwise it is hidden automatically. The **Best4u Extensions** tab is likewise only displayed by Magento once at least one section is assigned to it.
 
+## Upgrading from version 1.x
+
+Version 2.0 renames the Composer package, the Magento module, the PHP namespace and the repository:
+
+| | Before | Now |
+|---|---|---|
+| Composer package | `best4u/module-backend` | `best4u/module-base` |
+| Magento module | `Best4u_Backend` | `Best4u_Base` |
+| PHP namespace | `Best4u\Backend` | `Best4u\Base` |
+| Repository | `https://github.com/best4u-magento/best4u-module-backend.git` | `https://github.com/best4u-magento/module-base.git` |
+
+```bash
+composer config repositories.best4u-module-backend vcs https://github.com/best4u-magento/module-base.git
+composer remove --no-update best4u/module-backend
+composer require --no-update best4u/module-base:^2.0
+composer update "best4u/*"
+bin/magento setup:upgrade
+bin/magento setup:di:compile
+bin/magento setup:static-content:deploy
+bin/magento cache:flush
+```
+
+- `setup:upgrade` enables `Best4u_Base` and removes `Best4u_Backend` from `app/etc/config.php`: commit the updated `config.php`.
+- Update all Best4u modules that depend on it at the same time (they require `best4u/module-base` ^2.0).
+- Admin role permissions are moved to the new ACL resource ID by a data patch during `setup:upgrade`.
+- The Best4u menu ID (`Best4u::best4u_elements`) and the `best4u` configuration tab are unchanged.
+- Old class names (`Best4u\Backend\...`) keep working through a compatibility autoloader until the next major version, but update your own code to the new namespace.
+
 ## Uninstallation
 
 Other Best4u extensions depend on this module, so remove them first. Then run the following commands:
 
 ```bash
-bin/magento module:disable Best4u_Backend
-composer remove best4u/module-backend
+bin/magento module:disable Best4u_Base
+composer remove best4u/module-base
 bin/magento setup:upgrade
 bin/magento setup:di:compile
 bin/magento setup:static-content:deploy -f -s standard

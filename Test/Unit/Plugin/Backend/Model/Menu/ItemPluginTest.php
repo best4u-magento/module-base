@@ -4,10 +4,10 @@
  */
 declare(strict_types=1);
 
-namespace Best4u\Backend\Test\Unit\Plugin\Backend\Model\Menu;
+namespace Best4u\Base\Test\Unit\Plugin\Backend\Model\Menu;
 
 use ArrayIterator;
-use Best4u\Backend\Plugin\Backend\Model\Menu\ItemPlugin;
+use Best4u\Base\Plugin\Backend\Model\Menu\ItemPlugin;
 use Magento\Backend\Model\Menu;
 use Magento\Backend\Model\Menu\Item;
 use PHPUnit\Framework\MockObject\MockObject;
