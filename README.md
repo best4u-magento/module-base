@@ -32,7 +32,7 @@ Install the module via Composer:
 
 1. Add the repository to your Composer configuration:
 ```bash
-composer config repositories.best4u-module-backend vcs https://github.com/best4u-magento/module-base.git
+composer config repositories.best4u-module-base vcs https://github.com/best4u-magento/module-base.git
 ```
 2. Require the module (without updating immediately):
 ```bash
@@ -107,7 +107,8 @@ Version 2.0 renames the Composer package, the Magento module, the PHP namespace 
 | Repository | `https://github.com/best4u-magento/best4u-module-backend.git` | `https://github.com/best4u-magento/module-base.git` |
 
 ```bash
-composer config repositories.best4u-module-backend vcs https://github.com/best4u-magento/module-base.git
+composer config --unset repositories.best4u-module-backend   # old entry; the key may differ in your composer.json
+composer config repositories.best4u-module-base vcs https://github.com/best4u-magento/module-base.git
 composer remove --no-update best4u/module-backend
 composer require --no-update best4u/module-base:^2.0
 composer update "best4u/*"
